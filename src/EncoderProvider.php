@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace Yethee\Tiktoken;
 
 use InvalidArgumentException;
-use Symfony\Contracts\Service\ResetInterface;
 use Yethee\Tiktoken\Vocab\Loader\DefaultVocabLoader;
 use Yethee\Tiktoken\Vocab\Vocab;
 use Yethee\Tiktoken\Vocab\VocabLoader;
 
 use function getenv;
 use function sprintf;
-use function str_starts_with;
 use function sys_get_temp_dir;
 
 use const DIRECTORY_SEPARATOR;
 
-final class EncoderProvider implements ResetInterface
+final class EncoderProvider
 {
     public const ENCODINGS = [
         'r50k_base' => [
@@ -122,7 +120,7 @@ final class EncoderProvider implements ResetInterface
         }
 
         foreach (self::MODEL_PREFIX_TO_ENCODING as $prefix => $modelEncoding) {
-            if (str_starts_with($model, $prefix)) {
+            if (substr($model, 0, strlen($prefix)) === $prefix) {
                 return $this->get($modelEncoding);
             }
         }

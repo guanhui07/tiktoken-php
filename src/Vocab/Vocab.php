@@ -41,7 +41,12 @@ final class Vocab implements Countable
     {
         $this->tokenToRankMap = $tokenRankMap;
         /** @psalm-suppress PropertyTypeCoercion */
-        $this->rankToTokenMap = array_map(strval(...), array_flip($tokenRankMap));
+        $tempMap = array_flip($tokenRankMap);
+        $mappedArray = array();
+        foreach ($tempMap as $key => $value) {
+            $mappedArray[$key] = (string)$value;
+        }
+        $this->rankToTokenMap = $mappedArray;
 
         if (count($this->tokenToRankMap) !== count($this->rankToTokenMap)) {
             throw new InvalidArgumentException('The map of tokens and ranks has duplicates of rank');
@@ -104,7 +109,7 @@ final class Vocab implements Countable
         return new self($map);
     }
 
-    public function tryGetRank(string $binary): int|null
+    public function tryGetRank(string $binary)
     {
         if ($binary === '') {
             throw new InvalidArgumentException('Argument $binary cannot be an empty string');
