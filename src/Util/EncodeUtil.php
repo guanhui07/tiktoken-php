@@ -21,7 +21,7 @@ final class EncodeUtil
     {
         $hex = bin2hex($text);
         $parts = str_split($hex, 2);
-        $result = array();
+        $result = [];
         foreach ($parts as $part) {
             $result[] = hexdec($part);
         }
