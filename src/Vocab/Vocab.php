@@ -31,10 +31,10 @@ use function strval;
 final class Vocab implements Countable
 {
     /** @var array<non-empty-string, int> */
-    private array $tokenToRankMap;
+    private  $tokenToRankMap;
 
     /** @var array<int, non-empty-string> */
-    private array $rankToTokenMap;
+    private  $rankToTokenMap;
 
     /** @param array<non-empty-string, int> $tokenRankMap */
     private function __construct(array $tokenRankMap)
@@ -120,10 +120,11 @@ final class Vocab implements Countable
             throw new InvalidArgumentException('Argument $binary cannot be an empty string');
         }
 
-        return $this->tokenToRankMap[$binary] ?? throw new OutOfBoundsException(sprintf(
-            'No rank for bytes vector: [%s]',
-            implode(', ', EncodeUtil::toBytes($binary)),
-        ));
+        $rank = isset($this->tokenToRankMap[$binary])? $this->tokenToRankMap[$binary] : null;
+        if ($rank === null) {
+            throw new OutOfBoundsException(sprintf('No rank for bytes vector: [%s]', implode(', ', EncodeUtil::toBytes($binary))));
+        }
+        return $rank;
     }
 
     /**
@@ -133,7 +134,11 @@ final class Vocab implements Countable
      */
     public function getToken(int $rank): string
     {
-        return $this->rankToTokenMap[$rank] ?? throw new OutOfBoundsException(sprintf('No token for rank: %d', $rank));
+        $token = isset($this->rankToTokenMap[$rank])? $this->rankToTokenMap[$rank] : null;
+        if ($token === null) {
+            throw new OutOfBoundsException(sprintf('No token for rank: %d', $rank));
+        }
+        return $token;
     }
 
     /** @psalm-api */

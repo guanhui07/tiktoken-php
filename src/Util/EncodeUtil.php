@@ -19,6 +19,12 @@ final class EncodeUtil
      */
     public static function toBytes(string $text): array
     {
-        return array_map(hexdec(...), str_split(bin2hex($text), 2));
+        $hex = bin2hex($text);
+        $parts = str_split($hex, 2);
+        $result = array();
+        foreach ($parts as $part) {
+            $result[] = hexdec($part);
+        }
+        return $result;
     }
 }

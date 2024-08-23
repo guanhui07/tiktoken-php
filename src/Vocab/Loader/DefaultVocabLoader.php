@@ -31,11 +31,11 @@ use const DIRECTORY_SEPARATOR;
 
 final class DefaultVocabLoader implements VocabLoader
 {
-    public function __construct(private string|null $cacheDir = null)
+    public function __construct( $cacheDir = null)
     {
     }
 
-    public function load(string $uri, string|null $checksum = null): Vocab
+    public function load(string $uri,  $checksum = null): Vocab
     {
         $cacheFile = $this->cacheDir !== null ? $this->cacheDir . DIRECTORY_SEPARATOR . sha1($uri) : null;
 
@@ -99,7 +99,7 @@ final class DefaultVocabLoader implements VocabLoader
     }
 
     /** @param string|resource $resource */
-    private function checkHash($resource, string|null $expectedHash): bool
+    private function checkHash($resource,  $expectedHash): bool
     {
         if ($expectedHash === null) {
             return true;

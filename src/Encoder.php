@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Yethee\Tiktoken;
 
-use Stringable;
 use Yethee\Tiktoken\Exception\RegexError;
 use Yethee\Tiktoken\Util\EncodeUtil;
 use Yethee\Tiktoken\Vocab\Vocab;
@@ -14,7 +13,6 @@ use function array_merge;
 use function array_values;
 use function count;
 use function implode;
-use function preg_last_error_msg;
 use function preg_match_all;
 use function sprintf;
 use function strlen;
@@ -23,13 +21,13 @@ use function substr;
 use const PHP_INT_MAX;
 
 /** @psalm-import-type NonEmptyByteVector from EncodeUtil */
-final class Encoder implements Stringable
+final class Encoder
 {
     /**
      * @param non-empty-string $name
      * @param non-empty-string $pattern
      */
-    public function __construct(public readonly string $name, private Vocab $vocab, private string $pattern)
+    public function __construct( $name, $vocab,  $pattern)
     {
     }
 
@@ -46,7 +44,7 @@ final class Encoder implements Stringable
         }
 
         if (preg_match_all($this->pattern, $text, $matches) === false) {
-            throw new RegexError(sprintf('Matching failed with error: %s', preg_last_error_msg()));
+            throw new RegexError(sprintf('Matching failed with error: %s', ''));
         }
 
         $tokens = [];
@@ -88,7 +86,7 @@ final class Encoder implements Stringable
         }
 
         if (preg_match_all($this->pattern, $text, $matches) === false) {
-            throw new RegexError(sprintf('Matching failed with error: %s', preg_last_error_msg()));
+            throw new RegexError(sprintf('Matching failed with error: %s', ''));
         }
 
         $chunks = [];
@@ -136,7 +134,7 @@ final class Encoder implements Stringable
     {
         $parts = [];
 
-        for ($i = 0; $i <= strlen($piece); $i++) {
+        for ($i = 0, $iMax = strlen($piece); $i <= $iMax; $i++) {
             $parts[] = [$i, PHP_INT_MAX];
         }
 
