@@ -23,6 +23,14 @@ use const PHP_INT_MAX;
 /** @psalm-import-type NonEmptyByteVector from EncodeUtil */
 final class Encoder
 {
+    public $name;
+
+    public $pattern;
+    /**
+     * @var Vocab
+     */
+    public $vocab;
+
     /**
      * @param non-empty-string $name
      * @param non-empty-string $pattern
@@ -122,7 +130,11 @@ final class Encoder
             return '';
         }
 
-        return implode(array_map($this->vocab->getToken(...), $tokens));
+        $mappedTokens = array();
+        foreach ($tokens as $token) {
+            $mappedTokens[] = $this->vocab->getToken($token);
+        }
+        return implode($mappedTokens);
     }
 
     /**
