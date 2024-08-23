@@ -31,6 +31,8 @@ use const DIRECTORY_SEPARATOR;
 
 final class DefaultVocabLoader implements VocabLoader
 {
+    public $cacheDir;
+
     public function __construct( $cacheDir = null)
     {
     }
@@ -49,7 +51,7 @@ final class DefaultVocabLoader implements VocabLoader
             if (! is_dir($this->cacheDir) && ! @mkdir($this->cacheDir, 0750, true)) {
                 throw new RuntimeException(sprintf(
                     'Directory does not exist and cannot be created: %s',
-                    $this->cacheDir,
+                    $this->cacheDir
                 ));
             }
 
