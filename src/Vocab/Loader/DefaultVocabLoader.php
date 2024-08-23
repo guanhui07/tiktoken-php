@@ -37,6 +37,10 @@ final class DefaultVocabLoader implements VocabLoader
     {
     }
 
+    /**
+     * @param string $uri
+     * @param $checksum
+     */
     public function load(string $uri,  $checksum = null): Vocab
     {
         $cacheFile = $this->cacheDir !== null ? $this->cacheDir . DIRECTORY_SEPARATOR . sha1($uri) : null;
@@ -71,7 +75,7 @@ final class DefaultVocabLoader implements VocabLoader
                 if (! $this->checkHash($stream, $checksum)) {
                     throw new RuntimeException(sprintf(
                         'Checksum failed. Could not load vocab from URI: %s',
-                        $uri,
+                        $uri
                     ));
                 }
 
