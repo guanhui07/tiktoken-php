@@ -10,7 +10,7 @@ This is a port of the [tiktoken](https://github.com/openai/tiktoken).
 ## Installation
 
 ```bash
-$ composer require yethee/tiktoken
+$ composer require guanhui07/tiktoken
 ```
 
 ## Usage
